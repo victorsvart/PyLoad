@@ -1,5 +1,5 @@
 # PyLoad
-I'm a video editor so I tend to download videos from youtube a lot. So I decided to make this Youtube Video Downloader so that I could stop using shady websites.
+I'm a video editor so that I could make my video editor side job a little easier. So I decided to make this Youtube Video Downloader so that I could stop using shady websites.
 
 # Installation
 
