@@ -8,8 +8,14 @@ import sqlite3
 ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
 
 class Services:
-    def _init_(self):
+    def __init__(self):
         pass
+
+    def getPath(self):
+        folderPath = askdirectory()
+        return folderPath
+        
+    folderPath = getPath
 
     def saveToDb(self, videoTitle, videoThumbnail, videoUrl):
         conn = sqlite3.connect(os.path.realpath('../env/db/info.db'))
@@ -22,16 +28,13 @@ class Services:
     def video_download(self, url):
         yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
         with ydl:
+           
             video = yt.streams.get_highest_resolution()
-            video.download()
+            video.download(self.folderPath())
             self.saveToDb(yt.title, yt.thumbnail_url, url)
     
     #Function to get user's folder path as a string
-    def getPath(self):
-        folderPath = askdirectory()
-        return folderPath
-        
-    folderPath = getPath
+    
     
     def audio_download(self, url):
         yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
@@ -54,7 +57,7 @@ class Services:
 
 
 class Threads:
-    def _init_(self):
+    def __init__(self):
         self.service = Services()
 
     def VideoThread(self, url):
