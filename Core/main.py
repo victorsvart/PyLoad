@@ -41,7 +41,9 @@ class MyTabView(ctk.CTk):
             result = threads.VideoThread(self.handler.entry.get())
             if(result == True):
                 self.handler.afterDownloadBar()
-                
+    def handleThread(self):
+        buttonThread = th(target=self.handleDownloads)
+        buttonThread.start()
 
 
 app = MyTabView()
