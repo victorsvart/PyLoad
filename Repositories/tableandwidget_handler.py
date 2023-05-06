@@ -1,14 +1,15 @@
 from customtkinter import CTkTabview, CTkLabel, CTkEntry, CTkCheckBox, CTkButton, CTkProgressBar, CTkFrame, CTkFont
 from abc import ABC, abstractmethod
 from threading import Thread as th
-from Services.app_services import Threads 
-threads = Threads()
 class TabAndWidgetHandler(CTkTabview):
     def __init__(self, master, **kwargs):
         self.master = master
         self.UIFont = CTkFont(family="Segoe UI", weight="bold")
         super().__init__(master, **kwargs)
     
+    # def setInterface(self):
+
+
 
     @abstractmethod
     def setTabAndFrame(self, tabName):
@@ -18,9 +19,9 @@ class TabAndWidgetHandler(CTkTabview):
             
 
     @abstractmethod
-    def setLabel(self, text):
+    def setLabel(self, text, posy, posx):
         self.label = CTkLabel(master=self.frame, text=text)
-        self.label.pack(pady=12, padx=10)
+        self.label.pack(pady=posy, padx=posx)
 
     @abstractmethod
     def setEntry(self, *args, **kwargs):
