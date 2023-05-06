@@ -2,7 +2,7 @@ import os
 from pytube import YouTube
 from tkinter.filedialog import askdirectory
 import youtube_dl
-import threading as th
+from threading import Thread as th
 import sqlite3
 
 ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s.%(ext)s'})
@@ -27,11 +27,13 @@ class Services:
 
     def video_download(self, url):
         yt = YouTube(url, use_oauth=True, allow_oauth_cache=True)
+        
         with ydl:
-           
             video = yt.streams.get_highest_resolution()
             video.download(self.folderPath())
             self.saveToDb(yt.title, yt.thumbnail_url, url)
+            return True
+        
     
     #Function to get user's folder path as a string
     
@@ -51,23 +53,43 @@ class Services:
             os.rename(download_file, new_file)
 
             self.saveToDb(yt.title, yt.thumbnail_url, url)
+
+            return True
             # Random
 
 
+class ThreadHandler(th):
+    
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs={}, Verbose=None):
+        th.__init__(self, group, target, name, args, kwargs)
+        self._return = None
 
+    def run(self):
+        if self._target is not None:
+            self._return = self._target(*self._args,
+                                                **self._kwargs)
+        return self._return
+    def join(self, *args):
+        super().join(*args)
+        return self._return
 
 class Threads:
+  
     def __init__(self):
         self.service = Services()
 
     def VideoThread(self, url):
-        x = th.Thread(target=self.service.video_download,
-                      daemon=True,
+       
+        x = ThreadHandler(target=self.service.video_download,
+                      
                       args=(url, ))
-        x.start()
+        
+        return x.run()
 
     def AudioThread(self, url):
-        y = th.Thread(target=self.service.audio_download,
-                      daemon=True,
+        y = ThreadHandler(target=self.service.audio_download,
+                      
                       args=(url, ))
-        y.start()
+        return y.run()
+        
