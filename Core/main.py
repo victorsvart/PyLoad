@@ -25,6 +25,7 @@ class MyTabView(ctk.CTk):
         self.handler.setProgressBar(orientation="horizontal", progress_color="#035bbd",  mode="undeterminate")
         self.handler.setButton(hover_color="#035bbd", text="Download", command=lambda: [self.handler.progressBar.start(),
                                                                                         self.handleThread()])
+        self.handler.pack(padx=20, pady=20, fill="both", expand=True)
 
         
     def handleDownloads(self):
