@@ -22,7 +22,6 @@ class MyTabView(ctk.CTkTabview):
 
         UIFont = ctk.CTkFont(family="Segoe UI", weight="bold")
         self.add("Download")
-        self.add("Playlist")
 
        
 
@@ -58,11 +57,6 @@ class MyTabView(ctk.CTkTabview):
         self.progressBar.pack(pady=12, padx=10)
 
 
-        # Playlist Tab
-        self.frame2 = ctk.CTkFrame(master=self.tab("Playlist"))
-        self.frame2.pack(pady=30, padx=60, fill="both", expand=True)
-        self.label = ctk.CTkLabel(master=self.frame2, text="Playlist")
-        self.label.pack(pady=12, padx=10)
 
 
     def handleDownloads(self):
@@ -77,8 +71,9 @@ class MyTabView(ctk.CTkTabview):
             
         else:
             result = threads.VideoThread(self.entry0.get())
-            
             if(result == True):
+                self.progressBar.configure(mode="determinate", progress_color="green")
+                self.progressBar.set(100)
                 self.progressBar.stop()
 
     def handleThread(self):
