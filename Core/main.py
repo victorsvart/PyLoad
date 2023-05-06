@@ -8,6 +8,7 @@ from Services.app_services import Threads as Threads
 from threading import Thread as th
 from Repositories.tableandwidget_handler import TabAndWidgetHandler
 
+
 class MyTabView(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -27,6 +28,7 @@ class MyTabView(ctk.CTk):
                                                                                         self.handleThread()])
         self.handler.pack(padx=20, pady=20, fill="both", expand=True)
 
+
         
     def handleDownloads(self):
         threads = Threads()
@@ -34,17 +36,13 @@ class MyTabView(ctk.CTk):
         if(self.checkboxValue.get() == 1):
            result = threads.AudioThread(self.handler.entry.get())
            if(result == True):
-                self.handler.afterDownloadBar()
-            
+                self.handler.afterDownloadBar()           
         else:
             result = threads.VideoThread(self.handler.entry.get())
             if(result == True):
                 self.handler.afterDownloadBar()
                 
 
-    def handleThread(self):
-        buttonThread = th(target=self.handleDownloads)
-        buttonThread.start()
 
 app = MyTabView()
 app.mainloop()
