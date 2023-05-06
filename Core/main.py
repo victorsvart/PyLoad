@@ -7,6 +7,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 import customtkinter as ctk
 from Services.app_services import *
 from threading import Thread as th
+from Repositories.app_handler import App
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
@@ -88,15 +89,14 @@ class MyTabView(ctk.CTkTabview):
               
         
             
-class App(ctk.CTk):
+class AppHandler(App):
 
     def __init__(self):
         super().__init__()
-        self.title("Pyload")
-        # self.iconbitmap("../assets/icon.ico") // iconbitmap deprecado
-        self.geometry("650x400")
-        self.tab_view = MyTabView(master=self)
-        self.tab_view.pack(padx=20, pady=20, fill="both", expand=True)
+        self.setAppConfig("Pyload", 650, 400)
+        self.tabView = self.setTabView(MyTabView)
+        self.tabView.pack(padx=20, pady=20, fill="both", expand=True)
+       
 
-app = App()
+app = AppHandler()
 app.mainloop()
